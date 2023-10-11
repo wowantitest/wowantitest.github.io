@@ -1,0 +1,22 @@
+{
+  "name": "node_crm",
+  "version": "1.0.0",
+  "description": "for riri.kz",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}

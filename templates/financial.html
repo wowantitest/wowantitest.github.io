@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Финансовые операции</title>
+    <!-- Подключение Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+    <!-- Шапка сайта с меню -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/">Меню</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Товары</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/transactions">Транзакции</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/financial">Финансы</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container-md">
+        
+    </div>
+    <div class="container">
+        <h1>Транзакции</h1>
+        <h2>Фильтр операций</h2>
+<form method="GET" action="/filter_financial_operations">
+    <div class="form-group">
+        <label for="operation_type">Тип операции:</label>
+        <select class="form-control" id="operation_type" name="operation_type">
+            <option value="">Все</option>
+            <option value="income">Доход</option>
+            <option value="expense">Расход</option>
+            <option value="advertising">Реклама</option>
+            <!-- Добавьте другие виды операций, если необходимо -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="start_date">Начать с:</label>
+        <input type="date" class="form-control" id="start_date" name="start_date">
+    </div>
+    <div class="form-group">
+        <label for="end_date">по:</label>
+        <input type="date" class="form-control" id="end_date" name="end_date">
+    </div>
+    <button type="submit" class="btn btn-primary">Отобразить</button>
+</form>
+
+        <!-- Таблица для отображения операций -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Дата</th>
+                    <th>Тип операции</th>
+                    <th>Сумма</th>
+                    <th>Комментарий</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Используйте шаблонный движок (например, Handlebars) для генерации строк таблицы -->
+                {{#each financial_operations}}
+                <tr>
+                    <td>{{this.id}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.operation_type}}</td>
+                    <td>{{this.amount}}</td>
+                    <td>{{this.comment}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <p><b>Общая сумма: <span id="total-amount">0.00</span>тг.</b></p>
+        <h2>Добавить финансовую операцию:</h2>
+<form method="POST" action="/add_financial_operation">
+    <div class="form-group">
+        <label for="date">Дата:</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+    </div>
+    <div class="form-group">
+        <label for="operation_type">Тип операции:</label>
+        <select class="form-control" id="operation_type" name="operation_type" required>
+            <option value="income">Доход</option>
+            <option value="expense">Расход</option>
+            <option value="advertising">Реклама</option>
+            <!-- Добавьте другие виды операций, если необходимо -->
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="amount">Сумма:</label>
+        <input type="number" step="0.01" class="form-control" id="amount" name="amount" required>
+    </div>
+    <div class="form-group">
+        <label for="comment">Комментарий:</label>
+        <textarea class="form-control" id="comment" name="comment"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить</button>
+</form>
+
+    </div>
+    <!-- JavaScript-скрипт для вычисления общей суммы -->
+    <script>
+        // Функция для вычисления суммы всех значений в колонке "Сумма"
+        function calculateTotalAmount() {
+            var totalAmount = 0;
+            var amountCells = document.querySelectorAll("table tbody tr td:nth-child(4)");
+
+            amountCells.forEach(function(cell) {
+                totalAmount += parseFloat(cell.textContent);
+            });
+
+            document.getElementById("total-amount").textContent = totalAmount.toFixed(2);
+        }
+
+        window.addEventListener("load", calculateTotalAmount);
+    </script>
+
+</body>
+</html>
